@@ -1,8 +1,15 @@
 from fastapi import FastAPI
 from db import conn
 from data import queries
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 #Helper function - easily requests and returns the results of an SQL query
 #Param sql - the SQL command that we want to execute as a string, col_name - the name of the column that holds numberic data

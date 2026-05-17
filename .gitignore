@@ -3,3 +3,6 @@ practice.sql
 __pycache__
 station_frequency.csv
 stops.txt
+node_modules
+AGENTS.md
+CLAUDE.md

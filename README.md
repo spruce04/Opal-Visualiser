@@ -9,7 +9,7 @@ When complete, the project will feature an interactive map, showing tap on and t
 * Follow steps in ```schema.sql``` to set up the postgresql database
 * Create a ```.env``` file in ```backend```, with variable ```DATABASE_URL=X```
   * Example - ```DATABASE_URL=postgresql://{username}:{password}@localhost:5432/opal```
-* Start the FastAPI server by entering ```uvicorn main:app --reload```
+* Start the FastAPI server by entering ```uvicorn main:app --reload``` in the ```backend``` folder
 * Going to the url outputted in the terminal, total and net data of taps can be accessed through the urls ```http://127.0.0.1:8000/nettaps``` and ```http://127.0.0.1:8000/totaltaps``` (front end is a work in progress).
 
 
