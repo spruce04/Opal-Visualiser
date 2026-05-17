@@ -20,17 +20,7 @@ ALTER COLUMN e_count TYPE INTEGER
 USING e_count::INTEGER;
 
 --5. Create a table for the locations of stops, that will read from the .txt file
-CREATE TABLE locations(stop_id TEXT,
-    stop_code TEXT,
-    stop_name TEXT,
-    stop_lat DOUBLE PRECISION,
-    stop_lon DOUBLE PRECISION,
-    location_type TEXT,
-    parent_station TEXT,
-    wheelchair_boarding TEXT,
-    level_id TEXT,
-    platform_code TEXT
-);
+CREATE TABLE locations(station_name TEXT, lat DOUBLE PRECISION, lon DOUBLE PRECISION);
 
---6. Load in the data from the stops.txt file
-\copy locations FROM './backend/data/stops.txt' DELIMITER ',' CSV HEADER;
+--6. Load in the data from the locations.csv file
+\copy locations FROM './backend/data/locations.csv' DELIMITER ',' CSV HEADER;

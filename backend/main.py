@@ -5,12 +5,12 @@ from data import queries
 app = FastAPI()
 
 #Helper function - easily requests and returns the results of an SQL query
-#Param s - the SQL command that we want to execute as a string, col_name - the name of the column that holds numberic data
-def querier(s: str, col_name):
+#Param sql - the SQL command that we want to execute as a string, col_name - the name of the column that holds numberic data
+def querier(sql, col_name):
     #Create a cursor to be able to use the connection to the database
     cursor = conn.cursor()
     #Execute an SQL command
-    cursor.execute(s)
+    cursor.execute(sql)
     #Gather and return the results of the command
     results = cursor.fetchall()
     #Properly format the results - add all results to a list of dictionaries
@@ -20,6 +20,8 @@ def querier(s: str, col_name):
         temp["station_name"] = i[0]
         temp["station_type"] = i[1]
         temp[col_name] = i[2]
+        temp["lat"] = i[3]
+        temp["lon"] = i[4]
         ret.append(temp)
     return ret
 
@@ -30,10 +32,10 @@ def func():
 
 #Function to run on /totaltaps
 @app.get("/totaltaps")
-def get_total_taps():
-    return querier(queries.total_taps, "total_taps")
+def get_total_taps(start: str='2026-04-01', end: str='2026-04-01'):
+    return querier(queries.total_taps(start,end), "total_taps")
 
 #Function to run on /nettaps
 @app.get("/nettaps")
-def get_net_taps():
-    return querier(queries.net_taps, "net_taps")
+def get_net_taps(start: str='2026-04-01', end: str='2026-04-01'):
+    return querier(queries.net_taps(start, end), "net_taps")
