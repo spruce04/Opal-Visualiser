@@ -1,0 +1,9 @@
+html, body, #root {
+  margin: 0;
+  padding: 0;
+}
+
+.circle:hover {
+  stroke: white;
+  stroke-width: 2px;
+}
