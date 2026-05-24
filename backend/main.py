@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["http://localhost:5173"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -38,11 +38,11 @@ def func():
     return {"message": "hello"}
 
 #Function to run on /totaltaps
-@app.get("/totaltaps")
+@app.get("/total_taps")
 def get_total_taps(start: str='2026-04-01', end: str='2026-04-01'):
     return querier(queries.total_taps(start,end), "total_taps")
 
 #Function to run on /nettaps
-@app.get("/nettaps")
+@app.get("/net_taps")
 def get_net_taps(start: str='2026-04-01', end: str='2026-04-01'):
     return querier(queries.net_taps(start, end), "net_taps")
