@@ -1,6 +1,7 @@
 import { CircleMarker, MapContainer, TileLayer, Tooltip } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
+import ToggleMode from "./components/ToggleMode";
 
 interface Station {
   station_name: string,
@@ -39,10 +40,11 @@ export default function App() {
   colours.set("Light rail", "#EE343F");
   colours.set("Metro Shared", "yellow");
 
+
   //leaflate boilerplate
   //we need to wrap in a div to force it to take up the whole screen
   return (
-    <div style={{ width: "100vw", height: "100vh" }}>
+    <div style={{ width: "100%", height: "100vh", position: "relative" }}>
       <MapContainer
         center={[-33.87, 150.90]}
         zoom={11}
@@ -63,6 +65,7 @@ export default function App() {
           </CircleMarker>
         ))}
       </MapContainer>
+      <ToggleMode on_toggle={set_display} active_mode={display}></ToggleMode>
     </div>
   );
 }

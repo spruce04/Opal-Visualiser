@@ -7,3 +7,29 @@ html, body, #root {
   stroke: white;
   stroke-width: 2px;
 }
+
+.toggleMode {
+  position: absolute;
+  z-index: 1001;
+  top: 10px; 
+  left: 60px;
+  background-color: white;
+  opacity: .95;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border: 1px solid black;
+}
+.toggleMode button {
+  margin-top: 5px;
+  min-width: 200px;
+}
+
+button.active {
+  border: 2px solid blue;
+}
+
+p {
+  margin: 0;
+}
