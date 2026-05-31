@@ -33,3 +33,13 @@ button.active {
 p {
   margin: 0;
 }
+
+.githubLogo img {
+  position: absolute;
+  z-index: 1001;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 40px;
+  max-height: 40px;  
+}
