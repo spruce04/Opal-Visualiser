@@ -14,7 +14,7 @@ html, body, #root {
   top: 10px; 
   left: 60px;
   background-color: white;
-  opacity: .95;
+  opacity: .85;
   padding: 5px;
   display: flex;
   align-items: center;
@@ -42,4 +42,24 @@ p {
   transform: translateX(-50%);
   max-width: 40px;
   max-height: 40px;  
+}
+
+.monthSelect {
+  position: absolute;
+  z-index: 1001;
+  top: 10px; 
+  left: 280px;
+  background-color: white;
+  opacity: .85;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.picker {
+  border: 1px solid black;
+  margin-top: 5px;
+  background-color: whitesmoke;
 }

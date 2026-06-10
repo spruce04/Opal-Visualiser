@@ -2,6 +2,7 @@ import { CircleMarker, MapContainer, TileLayer, Tooltip } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
 import ToggleMode from "./components/ToggleMode";
+import MonthSelect from "./components/MonthSelect";
 import githubLogo from "./assets/github.png";
 
 interface Station {
@@ -12,26 +13,19 @@ interface Station {
   lon: number
 }
 
-//All months in the dataset
-const months = [
-  "2024-10", "2024-11", "2024-12", "2025-1", "2025-2", "2025-3", "2025-4", "2025-5", "2025-6", "2025-7",
-  "2025-8", "2025-9", "2025-10", "2025-11", "2025-12", "2026-1", "2026-2", "2026-3", "2026-4"
-]
-
-
 export default function App() {
   const [stations, set_stations] = useState<Station[]>([]);
   const [display, set_display] = useState<string>("total_taps"); //track if we want total or net taps
-  const [date_range, set_date_range] = useState<[string, string]>(["2026-04", "2026-04"]);
+  const [date_range, set_date_range] = useState<[string, string]>(["2026-04-1", "2026-04-1"]);
 
   useEffect(() => {
     //make a request to the API (returns a promise)
-    fetch("http://127.0.0.1:8000/"+display)
+    fetch(`http://127.0.0.1:8000/${display}?start=${date_range[0]}&end=${date_range[1]}`)
     //parse the response as JSON
     .then((res) => res.json())
     //Store the data (an array of stations) in state
     .then((data: Station[]) => set_stations(data));
-  }, [display]);
+  }, [display, date_range]); //We want to call this whenever the chosen display or date range changes
 
   //Mathematical formula to normalise the radius of the circles - we need to take the absolute value for net taps
   const max_taps = Math.max(...stations.map((s) => Math.abs(s[display])));
@@ -75,6 +69,8 @@ export default function App() {
         ))}
       </MapContainer>
       <ToggleMode on_toggle={set_display} active_mode={display}></ToggleMode>
+      <MonthSelect set_range={set_date_range}></MonthSelect>
+
       <a className="githubLogo" href="https://github.com/spruce04/Opal-Visualiser" target="_blank"><img id="githubLogo" src={githubLogo} alt="github logo"/></a>
     </div>
   );
