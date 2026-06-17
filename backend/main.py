@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI
 from db import connection_pool
 from data import queries
 from fastapi.middleware.cors import CORSMiddleware
@@ -39,13 +39,20 @@ def querier(query_data, col_name):
             temp["lat"] = i[3]
             temp["lon"] = i[4]
             ret.append(temp)
+        conn.commit() #Close on success
         return ret
-        
+    
+    #Reset the connection if an error occurs
+    except Exception as e:
+        if conn:
+            conn.rollback() 
+        raise e    
+
     finally:
-        #Always close the pool
+        #Always close if a cursor was opened
         if cursor:
             cursor.close()
-        connection_pool.putconn(conn)
+        connection_pool.putconn(conn) #Return a now unused connection to the pool
 
 #Function to run on the root
 @app.get("/")
