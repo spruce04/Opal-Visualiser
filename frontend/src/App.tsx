@@ -5,7 +5,7 @@ import ToggleMode from "./components/ToggleMode";
 import MonthSelect from "./components/MonthSelect";
 import githubLogo from "./assets/github.png";
 
-type DisplayMode = "total_taps" | "net_taps";
+export type DisplayMode = "total_taps" | "net_taps";
 
 interface Station {
   station_name: string,
