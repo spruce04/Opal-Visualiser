@@ -1,36 +1,51 @@
-from fastapi import FastAPI
-from db import conn
+from fastapi import FastAPI, Query
+from db import connection_pool
 from data import queries
 from fastapi.middleware.cors import CORSMiddleware
+import os
+from datetime import date
 
 app = FastAPI()
+
+origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 #Helper function - easily requests and returns the results of an SQL query
-#Param sql - the SQL command that we want to execute as a string, col_name - the name of the column that holds numberic data
-def querier(sql, col_name):
-    #Create a cursor to be able to use the connection to the database
-    cursor = conn.cursor()
-    #Execute an SQL command
-    cursor.execute(sql)
-    #Gather and return the results of the command
-    results = cursor.fetchall()
-    #Properly format the results - add all results to a list of dictionaries
-    ret = []
-    for i in results:
-        temp = {} 
-        temp["station_name"] = i[0]
-        temp["station_type"] = i[1]
-        temp[col_name] = i[2]
-        temp["lat"] = i[3]
-        temp["lon"] = i[4]
-        ret.append(temp)
-    return ret
+#Param query_data - the SQL command that we want to execute as a string, start and end dates, col_name - the name of the column that holds numberic data
+def querier(query_data, col_name):
+    #Unpack the SQL statement and dates
+    sql, dates = query_data
+    
+    #Grab a connection from the pool for this specific request
+    conn = connection_pool.getconn()
+    cursor = None
+    try:
+        #As conn exists, we know related functions will work
+        cursor = conn.cursor()
+        cursor.execute(sql, dates)
+        results = cursor.fetchall()
+        
+        ret = []
+        for i in results:
+            temp = {} 
+            temp["station_name"] = i[0]
+            temp["station_type"] = i[1]
+            temp[col_name] = i[2]
+            temp["lat"] = i[3]
+            temp["lon"] = i[4]
+            ret.append(temp)
+        return ret
+        
+    finally:
+        #Always close the pool
+        if cursor:
+            cursor.close()
+        connection_pool.putconn(conn)
 
 #Function to run on the root
 @app.get("/")

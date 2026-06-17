@@ -5,22 +5,25 @@ import ToggleMode from "./components/ToggleMode";
 import MonthSelect from "./components/MonthSelect";
 import githubLogo from "./assets/github.png";
 
+type DisplayMode = "total_taps" | "net_taps";
+
 interface Station {
   station_name: string,
   station_type: string,
   total_taps: number,
+  net_taps: number,
   lat: number,
   lon: number
 }
 
 export default function App() {
   const [stations, set_stations] = useState<Station[]>([]);
-  const [display, set_display] = useState<string>("total_taps"); //track if we want total or net taps
+  const [display, set_display] = useState<DisplayMode>("total_taps"); //track if we want total or net taps
   const [date_range, set_date_range] = useState<[string, string]>(["2026-04-1", "2026-04-1"]);
 
   useEffect(() => {
     //make a request to the API (returns a promise)
-    fetch(`http://127.0.0.1:8000/${display}?start=${date_range[0]}&end=${date_range[1]}`)
+    fetch(`${import.meta.env.VITE_API_URL}/${display}?start=${date_range[0]}&end=${date_range[1]}`)
     //parse the response as JSON
     .then((res) => res.json())
     //Store the data (an array of stations) in state
@@ -28,9 +31,15 @@ export default function App() {
   }, [display, date_range]); //We want to call this whenever the chosen display or date range changes
 
   //Mathematical formula to normalise the radius of the circles - we need to take the absolute value for net taps
+
   const max_taps = Math.max(...stations.map((s) => Math.abs(s[display])));
-  const min_taps = Math.min(...stations.map((s) => Math.abs(s[display])));
+  const min_taps = Math.min(...stations.map((s) => Math.abs(s[display])));  
+
+  
   const normalise = (value: number) => {
+    if (stations.length == 0 || max_taps == min_taps) {
+      return 10;
+    }
     const r_min = 4;
     const r_max = 50;
     return r_min + ((value - min_taps) / (max_taps - min_taps)) * (r_max - r_min);
@@ -43,6 +52,10 @@ export default function App() {
   colours.set("Light rail", "#EE343F");
   colours.set("Metro Shared", "yellow");
 
+  // If we are waiting to fetch the data
+  if (stations.length === 0) {
+    return <div>Fetching Opal Data...</div>;
+  }
 
   //leaflate boilerplate
   //we need to wrap in a div to force it to take up the whole screen

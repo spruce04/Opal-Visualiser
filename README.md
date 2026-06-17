@@ -16,8 +16,8 @@ Opal Visualiser uses open-source tap-on/tap-off data provided by Transport For N
 * Ensure the backend server is running first
 * Navigate to the ```frontend``` folder and install dependencies by entering ```npm install```
 * Start the development server by entering ```npm run dev```
-* Open ```http://localhost:3000``` in your browser to view the interactive map (the current map is not the final version).
-* More features (dynamic date selection and mode switching) in progress
+* Open ```http://localhost:3000``` in your browser to view the interactive map
+* Use the date selection component to select the range of months from which to draw data, and the toggle mode component to switch between total and net tap mode
 
 ## 🛠️ Final Stack
 * **Frontend:** React (vite) + TypeScript

@@ -22,7 +22,6 @@ const MonthSelect = ({ set_range }: MonthSelectProps ) => {
 
   //Format dates from date object to formatted string
   function fmt(d: Date) {
-    console.log(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-01`)
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-01`;
   }
     

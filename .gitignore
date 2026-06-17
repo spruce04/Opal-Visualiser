@@ -1,5 +1,6 @@
 practice.sql
 .env
+.env*
 __pycache__
 station_frequency.csv
 stops.txt
