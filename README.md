@@ -1,4 +1,5 @@
 # Opal-Visualiser
+<img width="1913" height="861" alt="image" src="https://github.com/user-attachments/assets/9a974cbe-d02d-4189-94e6-08b518654caf" />
 
 Opal Visualiser uses open-source tap-on/tap-off data provided by Transport For New South Wales, and visualises this data on an interactive leaflet-based map.
 
